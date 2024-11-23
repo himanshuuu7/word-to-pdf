@@ -1,0 +1,22 @@
+name: Docker Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: sudo docker build -t word-to-pdf:latest .
+
+      - name: Test Docker image
+        run: sudo docker run --rm -p 8000:8000 -p 8501:8501 word-to-pdf:latest
